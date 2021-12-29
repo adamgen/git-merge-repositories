@@ -6,6 +6,9 @@
     "scripts": {
         "format": "prettier --write --config .prettierrc.json ./**/*.{js,ts,tsx,css,md,json,mjs} --ignore-path=.gitignore"
     },
+    "bin": {
+        "mkmono": "./index.mjs"
+    },
     "dependencies": {
         "commander": "^8.3.0",
         "rimraf": "^3.0.2",
