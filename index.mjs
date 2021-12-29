@@ -14,34 +14,39 @@ program.version('0.0.1');
 program
     .command('merge')
     .requiredOption('-r, --repos [string...]', 'Repository url')
-    .requiredOption('-d, --dir [string]', 'Destination directory')
+    .requiredOption('-m, --monorepo-dir [string]', 'Destination directory')
+    .option('-p, --packages-dir [string]', 'Packages/projects dir')
     .option(
         '--reset-dir',
         'Clear the destination directory before running. Very useful for debugging.',
     )
     .description('describe')
-    .action(async ({ repos, dir, resetDir: isResetDir }) => {
-        const pwd = (await $`pwd`).toString().trim();
-        const destinationDir = path.join(pwd, dir);
+    .action(
+        async ({ repos, monorepoDir, resetDir: isResetDir, packagesDir }) => {
+            const pwd = (await $`pwd`).toString().trim();
+            const destinationMonorepoDirDir = path.join(pwd, monorepoDir);
 
-        if (!(await approveRepos(repos))) {
-            process.exit();
-        }
-
-        if (fs.existsSync(destinationDir)) {
-            if (isResetDir) {
-                await resetDir(destinationDir, isResetDir);
-            } else {
-                throw new Error(`Path exists on ${destinationDir}`);
+            if (!(await approveRepos(repos))) {
+                process.exit();
             }
-        } else {
-            await resetDir(destinationDir, isResetDir);
-        }
 
-        await addRemotes(destinationDir, repos);
-        await gitFetch(destinationDir, repos);
-        await addBranchPerRepo(destinationDir, repos);
-        await mergeRepos(destinationDir, repos);
-    });
+            if (fs.existsSync(destinationMonorepoDirDir)) {
+                if (isResetDir) {
+                    await resetDir(destinationMonorepoDirDir, isResetDir);
+                } else {
+                    throw new Error(
+                        `Path exists on ${destinationMonorepoDirDir}`,
+                    );
+                }
+            } else {
+                await resetDir(destinationMonorepoDirDir, isResetDir);
+            }
+
+            await addRemotes(destinationMonorepoDirDir, repos);
+            await gitFetch(destinationMonorepoDirDir, repos);
+            await addBranchPerRepo(destinationMonorepoDirDir, repos);
+            await mergeRepos(destinationMonorepoDirDir, repos);
+        },
+    );
 
 program.parse();
