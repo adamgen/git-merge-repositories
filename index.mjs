@@ -8,13 +8,15 @@ import { gitFetch } from './lib/git-fetch.mjs';
 import { addBranchPerRepo } from './lib/add-branch-per-repo.mjs';
 import { mergeRepos } from './lib/merge-repos.mjs';
 import { approveRepos } from './lib/validate-repos.mjs';
+import getStdin from 'get-stdin';
+import { isGitUrl } from './lib/is-git-url.mjs';
 
 program.version('0.0.1');
 
 program
     .command('merge')
-    .requiredOption('-r, --repos [string...]', 'Repository url')
     .requiredOption('-m, --monorepo-dir [string]', 'Destination directory')
+    .option('-r, --repos [string...]', 'Repository url')
     .option('-p, --packages-dir [string]', 'Packages/projects dir')
     .option('-y, --yes', 'Approve repose without asking')
     .option(
@@ -23,12 +25,35 @@ program
     )
     .description('describe')
     .action(
-        async ({ repos, monorepoDir, resetDir: isResetDir, packagesDir, yes }) => {
+        async ({
+            repos,
+            monorepoDir,
+            resetDir: isResetDir,
+            packagesDir,
+            yes,
+        }) => {
             const pwd = (await $`pwd`).toString().trim();
             const destinationMonorepoDirDir = path.join(pwd, monorepoDir);
 
-            if (!yes && !(await approveRepos(repos))) {
-                process.exit();
+            const stdin = (await getStdin()).trim().replace();
+
+            if (!repos) {
+                repos = stdin.split('\n').filter(isGitUrl);
+            }
+
+            if (!repos) {
+                console.log(chalk.red('No repos provided.'));
+                return process.exit();
+            }
+
+            if (stdin) {
+                console.log(chalk.blue(`Parsing repositories`));
+                console.log(repos);
+            } else if (!yes) {
+                const isApprove = await approveRepos(repos);
+                if (!isApprove) {
+                    return process.exit();
+                }
             }
 
             if (fs.existsSync(destinationMonorepoDirDir)) {
@@ -45,7 +70,11 @@ program
 
             await addRemotes(destinationMonorepoDirDir, repos);
             await gitFetch(destinationMonorepoDirDir, repos);
-            await addBranchPerRepo(destinationMonorepoDirDir, repos, packagesDir);
+            await addBranchPerRepo(
+                destinationMonorepoDirDir,
+                repos,
+                packagesDir,
+            );
             await mergeRepos(destinationMonorepoDirDir, repos);
         },
     );
