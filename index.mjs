@@ -16,15 +16,29 @@ program.version('0.0.1');
 
 program
     .command('merge')
-    .requiredOption('-m, --monorepo-dir [string]', 'Destination directory')
-    .option('-r, --repos [string...]', 'Repository url')
-    .option('-p, --packages-dir [string]', 'Packages/projects dir')
-    .option('-y, --yes', 'Approve repose without asking')
+    .requiredOption(
+        '-m, --monorepo-dir [string]',
+        "Destination directory that will contain the monorepo's git root. This directory will be deleted and re-initiated when wetting --reset-dir",
+    )
+    .option(
+        '-r, --repos [string...]',
+        'Repository url. You must either provide this, or pass stdin with valid repos.',
+    )
+    .option(
+        '-p, --packages-dir [string]',
+        "Packages/projects dir. Similar to lerna's packages directory",
+    )
+    .option(
+        '-y, --yes',
+        'Without this option you will be asked to approve after presented a list or the repositories to be merged. Note - using stdin will never prompt a dialog',
+    )
     .option(
         '--reset-dir',
         'Clear the destination directory before running. Very useful for debugging.',
     )
-    .description('describe')
+    .description(
+        `Calling this small util will merge many git repositories into a single monorepo.`,
+    )
     .action(
         async ({
             repos,
