@@ -4,7 +4,8 @@
     "main": "index.mjs",
     "license": "MIT",
     "scripts": {
-        "format": "prettier --write --config .prettierrc.json ./**/*.{js,ts,tsx,css,md,json,mjs} --ignore-path=.gitignore"
+        "format": "prettier --write --config .prettierrc.json ./**/*.{js,ts,tsx,css,md,json,mjs} --ignore-path=.gitignore",
+        "version-alpha": "npm version prerelease --preid alpha"
     },
     "bin": {
         "mkmono": "./index.mjs"
