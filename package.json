@@ -1,11 +1,17 @@
 {
-  "name": "git-merge-repositories",
-  "version": "0.0.1",
-  "main": "index.mjs",
-  "license": "MIT",
-  "dependencies": {
-    "commander": "^8.3.0",
-    "rimraf": "^3.0.2",
-    "zx": "^4.2.0"
-  }
+    "name": "git-merge-repositories",
+    "version": "0.0.1",
+    "main": "index.mjs",
+    "license": "MIT",
+    "scripts": {
+        "format": "prettier --write --config .prettierrc.json ./**/*.{js,ts,tsx,css,md,json,mjs} --ignore-path=.gitignore"
+    },
+    "dependencies": {
+        "commander": "^8.3.0",
+        "rimraf": "^3.0.2",
+        "zx": "^4.2.0"
+    },
+    "devDependencies": {
+        "prettier": "^2.5.1"
+    }
 }
