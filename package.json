@@ -1,0 +1,11 @@
+{
+  "name": "git-merge-repositories",
+  "version": "0.0.1",
+  "main": "index.mjs",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^8.3.0",
+    "rimraf": "^3.0.2",
+    "zx": "^4.2.0"
+  }
+}
