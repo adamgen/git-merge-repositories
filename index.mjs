@@ -2,14 +2,15 @@
 
 import 'zx/globals';
 import { program } from 'commander';
-import { resetDir } from './lib/reset-dir.mjs';
-import { addRemotes } from './lib/add-remotes.mjs';
-import { gitFetch } from './lib/git-fetch.mjs';
-import { addBranchPerRepo } from './lib/add-branch-per-repo.mjs';
-import { mergeRepos } from './lib/merge-repos.mjs';
-import { approveRepos } from './lib/validate-repos.mjs';
 import getStdin from 'get-stdin';
-import { isGitUrl } from './lib/is-git-url.mjs';
+
+import { resetDir } from './lib/steps/reset-dir.mjs';
+import { addRemotes } from './lib/steps/add-remotes.mjs';
+import { gitFetch } from './lib/steps/git-fetch.mjs';
+import { addBranchPerRepo } from './lib/steps/add-branch-per-repo.mjs';
+import { mergeRepos } from './lib/steps/merge-repos.mjs';
+import { approveRepos } from './lib/helpers/validate-repos.mjs';
+import { isGitUrl } from './lib/helpers/is-git-url.mjs';
 
 program.version('0.0.1');
 
