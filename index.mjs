@@ -16,17 +16,18 @@ program
     .requiredOption('-r, --repos [string...]', 'Repository url')
     .requiredOption('-m, --monorepo-dir [string]', 'Destination directory')
     .option('-p, --packages-dir [string]', 'Packages/projects dir')
+    .option('-y, --yes', 'Approve repose without asking')
     .option(
         '--reset-dir',
         'Clear the destination directory before running. Very useful for debugging.',
     )
     .description('describe')
     .action(
-        async ({ repos, monorepoDir, resetDir: isResetDir, packagesDir }) => {
+        async ({ repos, monorepoDir, resetDir: isResetDir, packagesDir, yes }) => {
             const pwd = (await $`pwd`).toString().trim();
             const destinationMonorepoDirDir = path.join(pwd, monorepoDir);
 
-            if (!(await approveRepos(repos))) {
+            if (!yes && !(await approveRepos(repos))) {
                 process.exit();
             }
 
@@ -44,7 +45,7 @@ program
 
             await addRemotes(destinationMonorepoDirDir, repos);
             await gitFetch(destinationMonorepoDirDir, repos);
-            await addBranchPerRepo(destinationMonorepoDirDir, repos);
+            await addBranchPerRepo(destinationMonorepoDirDir, repos, packagesDir);
             await mergeRepos(destinationMonorepoDirDir, repos);
         },
     );
