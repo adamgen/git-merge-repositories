@@ -5,7 +5,8 @@
     "license": "MIT",
     "scripts": {
         "format": "prettier --write --config .prettierrc.json ./**/*.{js,ts,tsx,css,md,json,mjs} --ignore-path=.gitignore",
-        "version-alpha": "npm version prerelease --preid alpha"
+        "version-alpha": "npm version prerelease --preid alpha",
+        "patch": "npm version patch && git push && npm publish"
     },
     "bin": {
         "git-merge-repositories": "./index.mjs"
