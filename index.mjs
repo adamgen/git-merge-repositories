@@ -12,8 +12,9 @@ import { mergeRepos } from './lib/steps/merge-repos.mjs';
 import { approveRepos } from './lib/helpers/validate-repos.mjs';
 import { isGitUrl } from './lib/helpers/is-git-url.mjs';
 import { validateNpmVersion } from './lib/helpers/validate-npm-version.mjs';
+import { getLocalVersion } from './lib/helpers/get-local-version.mjs';
 
-program.version('0.0.1');
+program.version(getLocalVersion());
 
 program
     .command('merge')
