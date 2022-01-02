@@ -1,6 +1,6 @@
 {
     "name": "git-merge-repositories",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "main": "index.mjs",
     "license": "MIT",
     "scripts": {
