@@ -8,7 +8,6 @@
         "version-alpha": "npm version prerelease --preid alpha"
     },
     "bin": {
-        "mkmono": "./index.mjs",
         "git-merge-repositories": "./index.mjs"
     },
     "dependencies": {
