@@ -12,6 +12,7 @@
         "git-merge-repositories": "./index.mjs"
     },
     "dependencies": {
+        "axios": "^0.24.0",
         "commander": "^8.3.0",
         "get-stdin": "^9.0.0",
         "rimraf": "^3.0.2",

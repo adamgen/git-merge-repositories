@@ -11,6 +11,7 @@ import { addBranchPerRepo } from './lib/steps/add-branch-per-repo.mjs';
 import { mergeRepos } from './lib/steps/merge-repos.mjs';
 import { approveRepos } from './lib/helpers/validate-repos.mjs';
 import { isGitUrl } from './lib/helpers/is-git-url.mjs';
+import { validateNpmVersion } from './lib/helpers/validate-npm-version.mjs';
 
 program.version('0.0.1');
 
@@ -93,5 +94,7 @@ program
             await mergeRepos(destinationMonorepoDirDir, repos);
         },
     );
-
-program.parse();
+(async () => {
+    await validateNpmVersion();
+    program.parse();
+})();
